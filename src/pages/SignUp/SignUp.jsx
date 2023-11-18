@@ -1,15 +1,72 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
+import axios from 'axios'
+import { ImSpinner9 } from "react-icons/im";
+
+
+import useAuth from '../../hooks/useAuth'
+import SaveUser, { GetToken } from '../../Api/Auth'
+import toast from 'react-hot-toast'
+
+// import { imageUpload } from '../../Api/utils'
 
 const SignUp = () => {
+
+  const {createUser,updateUserProfile,signInWithGoogle,loading}=useAuth()
+const navigate=useNavigate()
+
+
+const handleSubmit= async(e)=>{
+  e.preventDefault()
+
+  const form=e.target;
+  const name=form.name.value;
+  const image=form.image.files[0]
+  const formData=new FormData()
+  formData.append('image',image)
+
+  const {data}=await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY} `,formData)
+   const photo=data.data.display_url;
+ 
+  const email=form.email.value;
+  const password=form.password.value;
+  console.log(name,email,password,photo);
+// console.log(name,email,password);
+  // console.log(image);
+
+
+  try{
+   const result=await  createUser(email,password)
+ await updateUserProfile(name,photo)
+  //  console.log(result);
+
+   const dbResponse=await SaveUser(result?.user)
+   console.log(dbResponse);
+
+
+
+   await GetToken(result?.user?.email)
+   navigate('/')
+   toast.success('sign up successfull')
+
+  }catch (err){
+    toast.error(err?.message)
+  console.log(err);
+  }
+
+  
+}
+
+
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
         <div className='mb-8 text-center'>
-          <h1 className='my-3 text-4xl font-bold'>Sign Up</h1>
+          <h1 className='my-3 text-4xl font-bold animate-bounce'>Sign Up</h1>
           <p className='text-sm text-gray-400'>Welcome to StayVista</p>
         </div>
         <form
+         onSubmit={handleSubmit}
           noValidate=''
           action=''
           className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -77,7 +134,8 @@ const SignUp = () => {
               type='submit'
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
-              Continue
+             {loading? <ImSpinner9 className='animate-spin m-auto'></ImSpinner9>
+: "Continue"}
             </button>
           </div>
         </form>

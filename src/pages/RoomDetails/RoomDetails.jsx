@@ -14,20 +14,26 @@ const RoomDetails = () => {
     const [rooms, setRooms] = useState({});
     useEffect(() => {
       setLoading(true)
-      fetch("/rooms.json")
+      fetch(" https://raw.githubusercontent.com/shakilahmedatik/stay-vista-resources/main/data/rooms.json")
+    //  
         .then((res) => res.json())
         .then((data) => {
-
+      
             const singleRoom=data.find(room=>room._id===id)
+            // console.log(setRooms);
             setRooms(singleRoom)
             setLoading(false)
         });
     }, [id]);
-  
+    console.log('details',rooms);
+
+
     if(loading){
      return <Loader></Loader>
     }
  
+
+
     return (
         <Container>
             <Helmet>
@@ -42,7 +48,7 @@ const RoomDetails = () => {
                     
                       <div className="md:col-span-3 order-first md:order-last mb-10">
                           {/* room reservesion  */}
-                          <RoomReserve/>
+                          <RoomReserve roomData={rooms} />
                       
                       </div>
 
