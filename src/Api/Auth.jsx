@@ -29,3 +29,12 @@ export const GetToken=async email =>{
     console.log(data,'------------------>');
     return data
 }
+
+
+
+export const ClearCookie=async () =>{
+    
+    const axiosSecure=useAxiosSecure()
+    const {data}=await axiosSecure.get(`/logout`)
+    return data
+}

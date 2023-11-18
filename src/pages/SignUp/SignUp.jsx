@@ -52,9 +52,31 @@ const handleSubmit= async(e)=>{
   }catch (err){
     toast.error(err?.message)
   console.log(err);
-  }
+  } 
 
   
+}
+
+
+
+const handlegoogleSignIn=async()=>{
+  try{
+    const result=await  signInWithGoogle()
+ 
+    const dbResponse=await SaveUser(result?.user)
+    console.log(dbResponse);
+ 
+ 
+ 
+    await GetToken(result?.user?.email)
+    navigate('/')
+    toast.success('sign up successfull')
+ 
+   }catch (err){
+     toast.error(err?.message)
+   console.log(err);
+   }
+ 
 }
 
 
@@ -135,7 +157,7 @@ const handleSubmit= async(e)=>{
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
              {loading? <ImSpinner9 className='animate-spin m-auto'></ImSpinner9>
-: "Continue"}
+           : "Continue"}
             </button>
           </div>
         </form>
@@ -146,7 +168,7 @@ const handleSubmit= async(e)=>{
           </p>
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
-        <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'>
+        <div onClick={handlegoogleSignIn} className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'>
           <FcGoogle size={32} />
 
           <p>Continue with Google</p>

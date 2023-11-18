@@ -58,20 +58,35 @@ const MenuDropdown = () => {
               Home
             </Link>
 
-            {user?<button onClick={handleLogOut}  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>Log out</button>:<button  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
+            {user?<>
+              <Link
+              to='/dashboard'
+              className='px-4 py-3 mx-auto hover:bg-neutral-100 transition font-semibold'
+            >
+              Dashboard
+            </Link>
+
+            <button onClick={handleLogOut}  className='px-4 py-3  hover:bg-neutral-100 transition font-semibold'>Log out</button>
+            </>:
+              <>
+               <button  className='px-4 py-3 mx-auto hover:bg-neutral-100 transition font-semibold'>
             <Link
               to='/login'
              
             >
               Login
             </Link>
-              </button>}
-            <Link
+              </button>
+
+
+              <Link
               to='/signup'
               className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
             >
               Sign Up
             </Link>
+              </>}
+           
           </div>
         </div>
       )}

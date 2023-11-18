@@ -2,21 +2,70 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import useAuth from './../../hooks/useAuth';
 
+import SaveUser, { GetToken } from '../../Api/Auth';
+import toast from 'react-hot-toast';
+import { ImSpinner9 } from 'react-icons/im';
+
 const Login = () => {
-  const{signInWithGoogle}=useAuth()
+  const {signIn,signInWithGoogle,loading}=useAuth()
   const navigate=useNavigate()
+  
+  
+  const handleSubmit= async(e)=>{
+    e.preventDefault()
+  
+    const form=e.target;
+  
+   
+   
+    const email=form.email.value;
+    const password=form.password.value;
+  
+  // console.log(name,email,password);
+    // console.log(image);
+  
+  
+    try{
+     const result=await  signIn(email,password)
 
-  const handlePopup=()=>{
-
-    signInWithGoogle()
-    .then(res=>{
-      console.log(res?.data);
-      navigate('/')
-    })
-    .catch(err=>{
-      console.log(err);
-    })
+  
+  
+  
+  
+     await GetToken(result?.user?.email)
+     navigate('/')
+     toast.success('LogIn successfull')
+  
+    }catch (err){
+      toast.error(err?.message)
+    console.log(err);
+    } 
+  
+    
   }
+  
+  
+  
+  const handlePopup=async()=>{
+    try{
+      const result=await  signInWithGoogle()
+   
+      const dbResponse=await SaveUser(result?.user)
+      console.log(dbResponse);
+   
+   
+   
+      await GetToken(result?.user?.email)
+      navigate('/')
+      toast.success('Log In successfull')
+   
+     }catch (err){
+       toast.error(err?.message)
+     console.log(err);
+     }
+   
+  }
+  
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -27,6 +76,7 @@ const Login = () => {
           </p>
         </div>
         <form
+        onSubmit={handleSubmit}
           noValidate=''
           action=''
           className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -69,7 +119,8 @@ const Login = () => {
               type='submit'
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
-              Continue
+              {loading? <ImSpinner9 className='animate-spin m-auto'></ImSpinner9>
+           : "Continue"}
             </button>
           </div>
         </form>
