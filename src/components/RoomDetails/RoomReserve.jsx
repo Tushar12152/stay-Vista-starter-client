@@ -1,23 +1,23 @@
-// import { formatDistance } from "date-fns";
+import { formatDistance } from "date-fns";
 import Button from "../Button/Button";
 import Calender from "./Calender";
-// import { useState } from "react";
+import { useState } from "react";
 
 const RoomReserve = ({roomData}) => {
 console.log('reserve',roomData);
 //priceCalculation
 
-// const totalDay=parseInt(formatDistance(new Date(roomData?.to),new Date(roomData?.from)).split(' ')[0])
+const totalDay=parseInt(formatDistance(new Date(roomData?.to),new Date(roomData?.from)).split(' ')[0])
 
-// const totalPrice=totalDay*roomData?.price
+const totalPrice=totalDay*roomData?.price
 
 // console.log(totalPrice);
 
-// const [value,setValue]=useState({
-//     startDate:new Date(roomData?.from),
-//     endDate:new Date(roomData?.to),
-//     key:'selection',
-// })
+const [value,setValue]=useState({
+    startDate:new Date(roomData?.from),
+    endDate:new Date(roomData?.to),
+    key:'selection',
+})
 
 
     return (
@@ -32,8 +32,9 @@ console.log('reserve',roomData);
         <hr />
 
         <div className="flex justify-center">
-        {/* value={value} */}
-            <Calender  />
+        
+            <Calender   />
+            {/* value={value}  */}
         </div>
         <hr />
 
@@ -44,7 +45,7 @@ console.log('reserve',roomData);
 
         <div className="p-4 flex items-center justify-between font-semibold text-lg">
             <div>Total</div>
-            <div>$ {roomData?.price}</div>
+            <div>$ {totalPrice}</div>
             {/* {totalPrice} */}
         </div>
 

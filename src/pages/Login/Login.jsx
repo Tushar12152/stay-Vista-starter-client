@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import useAuth from './../../hooks/useAuth';
 
@@ -9,6 +9,8 @@ import { ImSpinner9 } from 'react-icons/im';
 const Login = () => {
   const {signIn,signInWithGoogle,loading}=useAuth()
   const navigate=useNavigate()
+  const location=useLocation()
+  const from= location?.state?.from?.pathname || '/'
   
   
   const handleSubmit= async(e)=>{
@@ -33,7 +35,7 @@ const Login = () => {
   
   
      await GetToken(result?.user?.email)
-     navigate('/')
+     navigate(from,{replace:true})
      toast.success('LogIn successfull')
   
     }catch (err){
@@ -56,7 +58,7 @@ const Login = () => {
    
    
       await GetToken(result?.user?.email)
-      navigate('/')
+      navigate(from,{replace:true})
       toast.success('Log In successfull')
    
      }catch (err){

@@ -14,7 +14,7 @@ if(loading){
 if(user){
     return children
 }else{
-     return <Navigate state={{from:location}} replace to='/login'></Navigate>
+     return <Navigate state={{from:location}} replace='true' to='/login'></Navigate>
 }
 
 
