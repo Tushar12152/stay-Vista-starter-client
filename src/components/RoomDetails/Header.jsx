@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import Heading from "../Shared/Heading"
 
 
@@ -6,14 +6,6 @@ import Heading from "../Shared/Heading"
 
 const Header = ({ roomData }) => {
   console.log(roomData);
-
-// const [room,setRoom]=useState({})
-
-
-// roomData.map(room=>setRoom(room))
-
-
-// console.log(room.location);
 
 
 
