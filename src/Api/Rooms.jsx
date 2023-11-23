@@ -1,42 +1,26 @@
-import useAxiosSecure from "./useAxiosSecure"
+import axiosSecure from "./useAxiosSecure"
 
-//fetch all data from db
-export const getAllRooms= async()=>{
 
-    const axiosSecure=useAxiosSecure();
-    
-
-     const {data}= await axiosSecure('/rooms')
-
-     
-     if(data){
-         return data
-     }
-     return null
+// Fetch all rooms from db
+export const getAllRooms = async () => {
+  const { data } = await axiosSecure('/rooms')
+  return data
 }
 
-//fetch  single data from  db
-
-export const getRoom= async(id)=>{
-    const axiosSecure=useAxiosSecure();
-     const {data}= await axiosSecure(`/rooms/${id}`)
-
-     
-     if(data){
-         return data
-     }
-     return null
+// Fetch all rooms for host
+export const getHostRooms = async email => {
+  const { data } = await axiosSecure(`/rooms/${email}`)
+  return data
 }
 
+// Fetch single room data from db
+export const getRoom = async id => {
+  const { data } = await axiosSecure(`/room/${id}`)
+  return data
+}
 
- export const addRoom =async (roomdata)=>{
-    const axiosSecure=useAxiosSecure();
-    const {data}= await axiosSecure.post(`/rooms`,roomdata)
-
-     
-     if(data){
-         return data
-     }
-     return null
-
+// Save a room data in db
+export const addRoom = async roomData => {
+  const { data } = await axiosSecure.post(`/rooms`, roomData)
+  return data
 }

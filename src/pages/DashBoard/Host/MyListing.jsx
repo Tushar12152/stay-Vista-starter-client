@@ -1,6 +1,21 @@
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import useAuth from '../../../hooks/useAuth'
+import { getHostRooms } from '../../../Api/Rooms'
+import RoomDataRow from '../../../components/DashBoard/TableRows/RoomDataRow'
+
+// import { getHostRooms } from '../../../Api/Rooms'
+// import axios from 'axios'
+// import axiosSecure from '../../../Api/useAxiosSecure'
 
 const MyListings = () => {
+    const { user } = useAuth()
+  const [rooms, setRooms] = useState([])
+  useEffect(() => {
+    getHostRooms(user?.email).then(data => setRooms(data))
+  }, [user])
+
+console.log(rooms);
   return (
     <>
       <Helmet>
@@ -58,7 +73,14 @@ const MyListings = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{/* Room row data */}</tbody>
+                <tbody>
+                    {/* Room row data */}
+                {
+                     rooms.map(room=> <RoomDataRow key={room._id} room={room}></RoomDataRow>)
+                }
+                
+                
+                </tbody>
               </table>
             </div>
           </div>

@@ -1,5 +1,6 @@
 
-import useAxiosSecure from "./useAxiosSecure";
+import axiosSecure from "./useAxiosSecure";
+
 
 const SaveUser = async(user) => {
 
@@ -11,7 +12,7 @@ const SaveUser = async(user) => {
      
     }
 
-    const axiosSecure=useAxiosSecure()
+   
 
     const {data}=await axiosSecure.put(`/users/${user?.email}`,currentUser)
 
@@ -24,7 +25,7 @@ export default SaveUser;
 
 export const GetToken=async email =>{
     
-    const axiosSecure=useAxiosSecure()
+   
     const {data}=await axiosSecure.post(`/jwt`,email)
     console.log(data,'------------------>');
     return data
@@ -34,7 +35,13 @@ export const GetToken=async email =>{
 
 export const ClearCookie=async () =>{
     
-    const axiosSecure=useAxiosSecure()
+   
     const {data}=await axiosSecure.get(`/logout`)
     return data
+}
+
+
+export const GetRole=async email=>{
+       const {data}=await axiosSecure(`/user/${email}`)
+       return data?.role
 }

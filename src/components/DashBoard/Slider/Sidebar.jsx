@@ -12,11 +12,28 @@ import Logo from '../../Shared/Logo'
 import MenuItem from './MenuItem'
 import ToggleBtn from '../../Button/ToggleBtn'
 import { MdHomeWork } from 'react-icons/md'
+import useAuth from '../../../hooks/useAuth'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import useRole from '../../../hooks/useRole'
+import HostMenu from './HostMenu'
 
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(false)
   const [isActive, setActive] = useState(false)
+  const {logOut}=useAuth()
+  const navigate=useNavigate()
+  const [role]=useRole()
+  console.log('role---------->',role);
+
+  const handleSignOut=()=>{
+     logOut()
+     .then(()=>{
+         toast.success('Logged Out')
+         navigate('/login')
+     })
+  }
 
   //   For guest/host menu item toggle button
   const toggleHandler = event => {
@@ -61,25 +78,7 @@ const Sidebar = () => {
             {/* If a user is host */}
             <ToggleBtn toggleHandler={toggleHandler} />
             <nav>
-              <MenuItem
-                icon={BsGraphUp}
-                label='Statistics'
-                address='/dashboard'
-              />
-
-
-                <MenuItem
-                icon={BsFillHouseAddFill}
-                label='Add Room'
-                address='/dashboard/add-room'
-              />
-
-
-                <MenuItem
-                icon={MdHomeWork}
-                label='My Listing'
-                address='/dashboard/mylist'
-              />
+                   <HostMenu></HostMenu>
               {/* Menu Items */}
             </nav>
           </div>
@@ -96,7 +95,7 @@ const Sidebar = () => {
           <button className='flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'>
             <GrLogout className='w-5 h-5' />
 
-            <span className='mx-4 font-medium'>Logout</span>
+            <span className='mx-4 font-medium' onClick={handleSignOut}>Logout</span>
           </button>
         </div>
       </div>
