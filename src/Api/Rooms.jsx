@@ -27,3 +27,16 @@ export const getRoom= async(id)=>{
      }
      return null
 }
+
+
+ export const addRoom =async (roomdata)=>{
+    const axiosSecure=useAxiosSecure();
+    const {data}= await axiosSecure.post(`/rooms`,roomdata)
+
+     
+     if(data){
+         return data
+     }
+     return null
+
+}

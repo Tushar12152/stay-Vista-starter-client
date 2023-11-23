@@ -4,7 +4,7 @@ const MyListings = () => {
   return (
     <>
       <Helmet>
-        <title>My Listings | Dashboard</title>
+        <title>My Listings</title>
       </Helmet>
 
       <div className='container mx-auto px-4 sm:px-8'>
